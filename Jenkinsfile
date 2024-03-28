@@ -1,0 +1,36 @@
+pipeline{
+    agent any
+    parameters {
+        string(defaultValue: '', name: 'IMAGE_NAME', description: 'Name of the Docker image to build')
+        string(defaultValue: '', name: 'CONTAINER_NAME', description: 'Name of the container to run')
+        string(defaultValue: '' , name: 'PORT_NUMBER', description: 'Port number to expose from container')
+    }
+
+    stages {
+        stage('Checkout Code') {
+            steps {
+                git branch: 'master', url: 'https://github.com/rcreddy484/one.git' // Replace with your actual URL
+            }
+        }
+        stage('Unit Tests') {
+            steps {
+                sh 'mvn test'
+            }
+        }
+        stage('Build Project') {
+            steps {
+                sh 'mvn clean package'
+            }
+        }
+        stage('Build Docker Image') {
+            steps {
+                sh 'docker build -t ${IMAGE_NAME} .'
+            }
+        }
+        stage('Run Container') {
+            steps {
+                sh 'docker run -itd --name ${CONTAINER_NAME} -p ${PORT_NUMBER}:8080 ${IMAGE_NAME} '
+            }
+        }
+    }
+}

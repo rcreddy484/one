@@ -32,5 +32,11 @@ pipeline{
                 sh 'docker run -itd --name ${CONTAINER_NAME} -p ${PORT_NUMBER}:8080 ${IMAGE_NAME} '
             }
         }
+	tage('Push Docker Image to Docker Registry') {
+            steps {
+                sh 'docker tag javaimage:latest rcreddy484/docker_practice02:javaimage_prac'
+		sh 'docker push rcreddy484/docker_practice02:javaimage_prac'
+            }
+        }
     }
 }

@@ -34,8 +34,8 @@ pipeline{
         }
 	stage('Push Docker Image to Docker Registry') {
             steps {
-                sh 'docker tag javaimage:latest rcreddy484/docker_practice02:javaimage_prac'
-		sh 'docker push rcreddy484/docker_practice02:javaimage_prac'
+                sh 'docker tag ${IMAGE_NAME} rcreddy484/docker_practice02:${IMAGE_NAME}'
+		sh 'docker push rcreddy484/docker_practice02:${IMAGE_NAME}'
             }
         }
     }
